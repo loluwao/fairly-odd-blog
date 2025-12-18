@@ -1,0 +1,28 @@
+import { useQuery } from 'react-query'
+import { decodeHtmlEntities } from './utils'
+
+const BLOG_API = import.meta.env.VITE_BLOG_API
+
+export const useReviews = (page: number) => {
+  return useQuery<WordPressPost[] | undefined>({
+    queryKey: ['get-reviews', page],
+    queryFn: async () => {
+      const response = await fetch(`${BLOG_API}/posts?page=${page}&limit=10`)
+      const data = await response.json()
+
+      const posts = data.posts.map((value: any) => {
+        return {
+          id: value.id,
+          date: value.date,
+          title: decodeHtmlEntities(value.title),
+          content: decodeHtmlEntities(value.content),
+          excerpt: decodeHtmlEntities(value.excerpt),
+          featuredImage: value.featured_image,
+          rawContent: value.content
+        } as WordPressPost
+      })
+      return posts ?? undefined
+    },
+    keepPreviousData: true,
+  })
+}
