@@ -11,11 +11,11 @@ export const decodeHtmlEntities = (text: string): string => {
       .replace(/&lt;/g, '<')
       .replace(/&gt;/g, '>')
       .replace(/&quot;/g, '"')
-      .replace(/&#038;/g, '&');
+      .replace(/&#038;/g, '&')
   }
-  
+
   // Browser - use DOMParser for comprehensive decoding
-  const parser = new DOMParser();
-  const decoded = parser.parseFromString(text, 'text/html').body.textContent;
-  return decoded || text;
-};
+  const parser = new DOMParser()
+  const decoded = parser.parseFromString(text, 'text/html').body.textContent
+  return decoded || text
+}

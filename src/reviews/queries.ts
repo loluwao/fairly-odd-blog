@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { decodeHtmlEntities } from './utils'
 
 const BLOG_API = import.meta.env.VITE_BLOG_API
@@ -18,11 +18,10 @@ export const useReviews = (page: number) => {
           content: decodeHtmlEntities(value.content),
           excerpt: decodeHtmlEntities(value.excerpt),
           featuredImage: value.featured_image,
-          rawContent: value.content
+          rawContent: value.content,
         } as WordPressPost
       })
       return posts ?? undefined
     },
-    keepPreviousData: true,
   })
 }

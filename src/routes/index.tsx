@@ -1,16 +1,16 @@
 import { createFileRoute } from '@tanstack/react-router'
 import logo from '../logo.svg'
-import '@fontsource/manrope/300.css';
-import '@fontsource/manrope/400.css';
-import '@fontsource/manrope/500.css';
-import '@fontsource/manrope/600.css';
-import '@fontsource/manrope/700.css';
-import '@fontsource/manrope/800.css';
+import '@fontsource/manrope/300.css'
+import '@fontsource/manrope/400.css'
+import '@fontsource/manrope/500.css'
+import '@fontsource/manrope/600.css'
+import '@fontsource/manrope/700.css'
+import '@fontsource/manrope/800.css'
 
-import '@fontsource/lora/400.css';
-import '@fontsource/lora/500.css';
-import '@fontsource/lora/600.css';
-import '@fontsource/lora/700.css';
+import '@fontsource/lora/400.css'
+import '@fontsource/lora/500.css'
+import '@fontsource/lora/600.css'
+import '@fontsource/lora/700.css'
 
 export const Route = createFileRoute('/')({
   component: App,

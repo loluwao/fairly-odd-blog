@@ -7,7 +7,7 @@ declare module '@mui/material/styles' {
       darkGreen: string
       darkBlue: string
       silver: string
-      neonGreen: string;
+      neonGreen: string
     }
   }
   interface PaletteOptions {
@@ -16,7 +16,7 @@ declare module '@mui/material/styles' {
       darkGreen: string
       darkBlue: string
       silver: string
-      neonGreen: string;
+      neonGreen: string
     }
   }
 }
@@ -34,11 +34,11 @@ const theme = createTheme({
       darkGreen: '#3C7C32',
       darkBlue: '#32387C',
       silver: '#949494',
-      neonGreen: '#c2f2c3'
+      neonGreen: '#c2f2c3',
     },
   },
   typography: {
-        // Primary font for headings and UI
+    // Primary font for headings and UI
     fontFamily: [
       '"Manrope"',
       '-apple-system',
@@ -49,7 +49,7 @@ const theme = createTheme({
       'Arial',
       'sans-serif',
     ].join(','),
-    
+
     // Headings - Manrope
     h1: {
       fontFamily: '"Manrope", sans-serif',
@@ -89,7 +89,7 @@ const theme = createTheme({
       fontWeight: 600,
       lineHeight: 1.5,
     },
-    
+
     // Subtitles - Mix of Manrope and Lora
     subtitle1: {
       fontFamily: '"Manrope", sans-serif',
@@ -105,7 +105,7 @@ const theme = createTheme({
       lineHeight: 1.6,
       color: 'text.secondary',
     },
-    
+
     // Body text - Lora for better readability
     body1: {
       fontFamily: '"Lora", serif',
@@ -119,7 +119,7 @@ const theme = createTheme({
       fontWeight: 400,
       lineHeight: 1.6,
     },
-    
+
     // Caption - Manrope
     caption: {
       fontFamily: '"Manrope", sans-serif',
@@ -134,18 +134,13 @@ const theme = createTheme({
     MuiButton: {
       defaultProps: {
         disableElevation: true, // Example: disable shadows on all buttons by default
-        style: {
-
-        }
+        style: {},
       },
     },
     MuiTypography: {
-      defaultProps: {
-        
-      },
+      defaultProps: {},
     },
   },
-  
 })
 
 export default theme
