@@ -1,9 +1,11 @@
 import { useQuery } from '@tanstack/react-query'
+
+import type { WordPressPost } from './types'
 import { decodeHtmlEntities } from './utils'
 
 const BLOG_API = import.meta.env.VITE_BLOG_API
 
-export const useReviews = (page: number) => {
+export const usePosts = (page: number) => {
   return useQuery<WordPressPost[] | undefined>({
     queryKey: ['get-reviews', page],
     queryFn: async () => {
@@ -17,10 +19,12 @@ export const useReviews = (page: number) => {
           title: decodeHtmlEntities(value.title),
           content: decodeHtmlEntities(value.content),
           excerpt: decodeHtmlEntities(value.excerpt),
-          featuredImage: value.featured_image,
+          featured_image: value.featured_image,
           rawContent: value.content,
+          slug: value.slug,
         } as WordPressPost
       })
+
       return posts ?? undefined
     },
   })

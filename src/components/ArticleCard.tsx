@@ -1,5 +1,7 @@
 import { Card, Stack, Typography } from '@mui/material'
 
+import theme from '../theme'
+
 export const ArticleCard: React.FC<{
   header: string
   previewText: string
@@ -11,19 +13,19 @@ export const ArticleCard: React.FC<{
       onClick={onClick}
       sx={{
         width: 400,
-        borderWidth: 0.5,
+        borderWidth: 1,
         borderColor: 'black',
         borderStyle: 'solid',
-        transition: '0.2s',
+        transition: 'all ease-in-out 0.2s;',
         '&:hover': {
-          //transitionDelay: '0s',
-          borderWidth: 1.5,
+          borderColor: theme.palette.color.neonPink,
+          cursor: 'pointer',
         },
       }}
     >
       <img src={imgSrc} height={100} />
-      <Stack margin={2}>
-        <Typography variant="h4">{header}</Typography>
+      <Stack margin={2} gap={1}>
+        <Typography variant="h2">{header}</Typography>
         <Typography variant="body1">{previewText}</Typography>
       </Stack>
     </Card>

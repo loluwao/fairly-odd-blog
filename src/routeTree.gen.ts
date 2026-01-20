@@ -10,53 +10,79 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as ReviewsIndexRouteImport } from './routes/reviews/index'
-import { Route as ReviewsReviewSlugIndexRouteImport } from './routes/reviews/$reviewSlug/index'
+import { Route as StatsIndexRouteImport } from './routes/stats/index'
+import { Route as BlogIndexRouteImport } from './routes/blog/index'
+import { Route as StatsCallbackRouteImport } from './routes/stats/callback'
+import { Route as BlogReviewSlugIndexRouteImport } from './routes/blog/$reviewSlug/index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ReviewsIndexRoute = ReviewsIndexRouteImport.update({
-  id: '/reviews/',
-  path: '/reviews/',
+const StatsIndexRoute = StatsIndexRouteImport.update({
+  id: '/stats/',
+  path: '/stats/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ReviewsReviewSlugIndexRoute = ReviewsReviewSlugIndexRouteImport.update({
-  id: '/reviews/$reviewSlug/',
-  path: '/reviews/$reviewSlug/',
+const BlogIndexRoute = BlogIndexRouteImport.update({
+  id: '/blog/',
+  path: '/blog/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StatsCallbackRoute = StatsCallbackRouteImport.update({
+  id: '/stats/callback',
+  path: '/stats/callback',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogReviewSlugIndexRoute = BlogReviewSlugIndexRouteImport.update({
+  id: '/blog/$reviewSlug/',
+  path: '/blog/$reviewSlug/',
   getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/reviews': typeof ReviewsIndexRoute
-  '/reviews/$reviewSlug': typeof ReviewsReviewSlugIndexRoute
+  '/stats/callback': typeof StatsCallbackRoute
+  '/blog': typeof BlogIndexRoute
+  '/stats': typeof StatsIndexRoute
+  '/blog/$reviewSlug': typeof BlogReviewSlugIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/reviews': typeof ReviewsIndexRoute
-  '/reviews/$reviewSlug': typeof ReviewsReviewSlugIndexRoute
+  '/stats/callback': typeof StatsCallbackRoute
+  '/blog': typeof BlogIndexRoute
+  '/stats': typeof StatsIndexRoute
+  '/blog/$reviewSlug': typeof BlogReviewSlugIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/reviews/': typeof ReviewsIndexRoute
-  '/reviews/$reviewSlug/': typeof ReviewsReviewSlugIndexRoute
+  '/stats/callback': typeof StatsCallbackRoute
+  '/blog/': typeof BlogIndexRoute
+  '/stats/': typeof StatsIndexRoute
+  '/blog/$reviewSlug/': typeof BlogReviewSlugIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/reviews' | '/reviews/$reviewSlug'
+  fullPaths: '/' | '/stats/callback' | '/blog' | '/stats' | '/blog/$reviewSlug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/reviews' | '/reviews/$reviewSlug'
-  id: '__root__' | '/' | '/reviews/' | '/reviews/$reviewSlug/'
+  to: '/' | '/stats/callback' | '/blog' | '/stats' | '/blog/$reviewSlug'
+  id:
+    | '__root__'
+    | '/'
+    | '/stats/callback'
+    | '/blog/'
+    | '/stats/'
+    | '/blog/$reviewSlug/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  ReviewsIndexRoute: typeof ReviewsIndexRoute
-  ReviewsReviewSlugIndexRoute: typeof ReviewsReviewSlugIndexRoute
+  StatsCallbackRoute: typeof StatsCallbackRoute
+  BlogIndexRoute: typeof BlogIndexRoute
+  StatsIndexRoute: typeof StatsIndexRoute
+  BlogReviewSlugIndexRoute: typeof BlogReviewSlugIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -68,18 +94,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/reviews/': {
-      id: '/reviews/'
-      path: '/reviews'
-      fullPath: '/reviews'
-      preLoaderRoute: typeof ReviewsIndexRouteImport
+    '/stats/': {
+      id: '/stats/'
+      path: '/stats'
+      fullPath: '/stats'
+      preLoaderRoute: typeof StatsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/reviews/$reviewSlug/': {
-      id: '/reviews/$reviewSlug/'
-      path: '/reviews/$reviewSlug'
-      fullPath: '/reviews/$reviewSlug'
-      preLoaderRoute: typeof ReviewsReviewSlugIndexRouteImport
+    '/blog/': {
+      id: '/blog/'
+      path: '/blog'
+      fullPath: '/blog'
+      preLoaderRoute: typeof BlogIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/stats/callback': {
+      id: '/stats/callback'
+      path: '/stats/callback'
+      fullPath: '/stats/callback'
+      preLoaderRoute: typeof StatsCallbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog/$reviewSlug/': {
+      id: '/blog/$reviewSlug/'
+      path: '/blog/$reviewSlug'
+      fullPath: '/blog/$reviewSlug'
+      preLoaderRoute: typeof BlogReviewSlugIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -87,8 +127,10 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  ReviewsIndexRoute: ReviewsIndexRoute,
-  ReviewsReviewSlugIndexRoute: ReviewsReviewSlugIndexRoute,
+  StatsCallbackRoute: StatsCallbackRoute,
+  BlogIndexRoute: BlogIndexRoute,
+  StatsIndexRoute: StatsIndexRoute,
+  BlogReviewSlugIndexRoute: BlogReviewSlugIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

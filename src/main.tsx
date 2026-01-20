@@ -1,12 +1,20 @@
+import { RouterProvider, createRouter } from '@tanstack/react-router'
 import { StrictMode } from 'react'
 import ReactDOM from 'react-dom/client'
-import { RouterProvider, createRouter } from '@tanstack/react-router'
 
-// Import the generated route tree
-import { routeTree } from './routeTree.gen'
-
-import './styles.css'
+import '@fontsource/manrope/300.css'
+import '@fontsource/manrope/400.css'
+import '@fontsource/manrope/500.css'
+import '@fontsource/manrope/600.css'
+import '@fontsource/manrope/700.css'
+import '@fontsource/manrope/800.css'
+import '@fontsource/lora/400.css'
+import '@fontsource/lora/500.css'
+import '@fontsource/lora/600.css'
+import '@fontsource/lora/700.css'
 import reportWebVitals from './reportWebVitals.ts'
+import { routeTree } from './routeTree.gen'
+import './styles.css'
 
 // Create a new router instance
 const router = createRouter({
@@ -27,8 +35,10 @@ declare module '@tanstack/react-router' {
 
 // Render the app
 const rootElement = document.getElementById('app')
+
 if (rootElement && !rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement)
+
   root.render(
     <StrictMode>
       <RouterProvider router={router} />

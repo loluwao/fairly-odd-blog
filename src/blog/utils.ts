@@ -17,5 +17,19 @@ export const decodeHtmlEntities = (text: string): string => {
   // Browser - use DOMParser for comprehensive decoding
   const parser = new DOMParser()
   const decoded = parser.parseFromString(text, 'text/html').body.textContent
+
   return decoded || text
+}
+
+export const formatDate = (dateString: string): string => {
+  const date = new Date(dateString)
+
+  return new Intl.DateTimeFormat('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true,
+  }).format(date)
 }

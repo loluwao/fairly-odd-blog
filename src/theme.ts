@@ -8,6 +8,9 @@ declare module '@mui/material/styles' {
       darkBlue: string
       silver: string
       neonGreen: string
+      neonPink: string
+      softGreen: string
+      white: string
     }
   }
   interface PaletteOptions {
@@ -17,6 +20,9 @@ declare module '@mui/material/styles' {
       darkBlue: string
       silver: string
       neonGreen: string
+      neonPink: string
+      softGreen: string
+      white: string
     }
   }
 }
@@ -30,11 +36,14 @@ const theme = createTheme({
       main: '#1E1E1E',
     },
     color: {
-      darkGray: '#1E1E1E',
+      darkGray: '#0a0a0a',
       darkGreen: '#3C7C32',
       darkBlue: '#32387C',
       silver: '#949494',
-      neonGreen: '#c2f2c3',
+      neonGreen: '#48C78E',
+      neonPink: '#DB4076',
+      softGreen: '#a5f4acff',
+      white: '#FFFFFF',
     },
   },
   typography: {
@@ -50,10 +59,9 @@ const theme = createTheme({
       'sans-serif',
     ].join(','),
 
-    // Headings - Manrope
     h1: {
       fontFamily: '"Manrope", sans-serif',
-      fontSize: '3rem', // 48px
+      fontSize: '4rem', // 48px
       fontWeight: 800,
       lineHeight: 1.2,
       letterSpacing: '-0.015em',
@@ -89,8 +97,6 @@ const theme = createTheme({
       fontWeight: 600,
       lineHeight: 1.5,
     },
-
-    // Subtitles - Mix of Manrope and Lora
     subtitle1: {
       fontFamily: '"Manrope", sans-serif',
       fontSize: '1rem', // 16px
@@ -105,11 +111,9 @@ const theme = createTheme({
       lineHeight: 1.6,
       color: 'text.secondary',
     },
-
-    // Body text - Lora for better readability
     body1: {
       fontFamily: '"Lora", serif',
-      fontSize: '1rem', // 16px
+      fontSize: '1.125rem', // 16px
       fontWeight: 400,
       lineHeight: 1.7,
     },
@@ -119,8 +123,6 @@ const theme = createTheme({
       fontWeight: 400,
       lineHeight: 1.6,
     },
-
-    // Caption - Manrope
     caption: {
       fontFamily: '"Manrope", sans-serif',
       fontSize: '0.75rem', // 12px
@@ -129,11 +131,10 @@ const theme = createTheme({
       color: 'text.secondary',
     },
   },
-  // You can customize component defaults as well
   components: {
     MuiButton: {
       defaultProps: {
-        disableElevation: true, // Example: disable shadows on all buttons by default
+        disableElevation: true,
         style: {},
       },
     },
