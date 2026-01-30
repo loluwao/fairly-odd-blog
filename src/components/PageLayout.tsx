@@ -1,7 +1,6 @@
-import { Stack, Typography } from '@mui/material'
-import type { ReactNode } from 'react'
-
-import theme from '../theme'
+import { Stack, Typography } from '@mui/material';
+import theme from '../theme';
+import type { ReactNode } from 'react';
 
 export const PageLayout: React.FC<{
   header: string;
@@ -10,13 +9,13 @@ export const PageLayout: React.FC<{
 
 }> = ({ header, subheader, content }) => {
   return (
-    <Stack gap={0} margin={4} alignItems={'center'}>
-      <Stack width={800} overflow={'clip'} alignItems={'center'}>
+    <Stack margin={4} alignItems={'center'}>
+      <Stack width={800} overflow={'clip'} alignItems={'center'} gap={0.5}>
         <Typography variant="h1" color={theme.palette.color.neonGreen}>{header}</Typography>
-        {subheader && <Typography variant='h6' color={theme.palette.color.white}>{subheader}</Typography>}
-        <img src={'/stars.svg'}/>
+        {subheader && <Typography variant='body1' color={theme.palette.color.white}>{subheader}</Typography>}
+        {/* <img src={'/fairlyodd-logo.png'} width={40}/> */}
       </Stack>
       {content}
     </Stack>
-  )
-}
+  );
+};

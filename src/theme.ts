@@ -1,4 +1,4 @@
-import { createTheme } from '@mui/material'
+import { createTheme } from '@mui/material';
 
 declare module '@mui/material/styles' {
   interface Palette {
@@ -11,6 +11,24 @@ declare module '@mui/material/styles' {
       neonPink: string
       softGreen: string
       white: string
+      whiteAlpha70: string
+      whiteAlpha50: string
+      blackAlpha85: string
+      coral: string
+      teal: string
+      skyBlue: string
+      sage: string
+      butter: string
+      plum: string
+      mint: string
+      gold: string
+      lavender: string
+      lightBlue: string
+      amber: string
+      salmon: string
+      aqua: string
+      yellow: string
+      green: string
     }
   }
   interface PaletteOptions {
@@ -23,6 +41,24 @@ declare module '@mui/material/styles' {
       neonPink: string
       softGreen: string
       white: string
+      whiteAlpha70: string
+      whiteAlpha50: string
+      blackAlpha85: string
+      coral: string
+      teal: string
+      skyBlue: string
+      sage: string
+      butter: string
+      plum: string
+      mint: string
+      gold: string
+      lavender: string
+      lightBlue: string
+      amber: string
+      salmon: string
+      aqua: string
+      yellow: string
+      green: string
     }
   }
 }
@@ -44,6 +80,24 @@ const theme = createTheme({
       neonPink: '#DB4076',
       softGreen: '#a5f4acff',
       white: '#FFFFFF',
+      whiteAlpha70: 'rgba(255,255,255,0.7)',
+      whiteAlpha50: 'rgba(255,255,255,0.5)',
+      blackAlpha85: 'rgba(0,0,0,0.85)',
+      coral: '#FF6B6B',
+      teal: '#4ECDC4',
+      skyBlue: '#45B7D1',
+      sage: '#96CEB4',
+      butter: '#FFEAA7',
+      plum: '#DDA0DD',
+      mint: '#98D8C8',
+      gold: '#F7DC6F',
+      lavender: '#BB8FCE',
+      lightBlue: '#85C1E9',
+      amber: '#F8B500',
+      salmon: '#FF8C94',
+      aqua: '#91EAE4',
+      yellow: '#FFD93D',
+      green: '#6BCB77',
     },
   },
   typography: {
@@ -135,13 +189,86 @@ const theme = createTheme({
     MuiButton: {
       defaultProps: {
         disableElevation: true,
-        style: {},
+      },
+      styleOverrides: {
+        root: {
+          fontFamily: '"Manrope", sans-serif',
+          fontWeight: 600,
+          textTransform: 'none',
+          borderRadius: '4px',
+          transition: 'all 0.2s ease-in-out',
+          letterSpacing: '0.02em',
+        },
+        contained: () => ({
+          backgroundColor: theme.palette.primary.main,
+          color: theme.palette.color.neonGreen,
+          border: `1px solid ${theme.palette.color.neonGreen}`,
+          '&:hover': {
+            backgroundColor: theme.palette.primary.main,
+            borderColor: theme.palette.color.neonPink,
+            color: theme.palette.color.neonPink,
+          },
+          '&:disabled': {
+            backgroundColor: theme.palette.primary.main,
+            color: theme.palette.color.silver,
+            borderColor: theme.palette.color.silver,
+            opacity: 0.5,
+          },
+        }),
+        outlined: () => ({
+          borderColor: theme.palette.color.neonGreen,
+          color: theme.palette.color.neonGreen,
+          '&:hover': {
+            borderColor: theme.palette.color.neonPink,
+            color: theme.palette.color.neonPink,
+            backgroundColor: 'transparent',
+          },
+        }),
+        text: () => ({
+          color: theme.palette.color.white,
+          '&:hover': {
+            color: theme.palette.color.neonGreen,
+            backgroundColor: 'transparent',
+          },
+        }),
+      },
+    },
+    MuiTextField: {
+      styleOverrides: {
+        root: () => ({
+          '& .MuiInputBase-input': { color: theme.palette.color.white },
+          '& .MuiInputLabel-root': { color: theme.palette.color.whiteAlpha70 },
+          '& .MuiInput-underline:before': { borderBottomColor: theme.palette.color.whiteAlpha50 },
+          '& .MuiInput-underline:hover:before': { borderBottomColor: theme.palette.color.white },
+          '& .MuiInput-underline:after': { borderBottomColor: theme.palette.color.white },
+        }),
+      },
+    },
+    MuiListItem: {
+      styleOverrides: {
+        root: () => ({
+          display: 'list-item',
+          listStyleType: 'disc',
+          '&::marker': {
+            color: theme.palette.color.white,
+          },
+          '& > *': {
+            display: 'inline',
+            marginRight: 4,
+          },
+          color: theme.palette.color.white,
+        }),
       },
     },
     MuiTypography: {
       defaultProps: {},
+      styleOverrides: {
+        root: () => ({
+          color: theme.palette.color.white,
+        }),
+      },
     },
   },
-})
+});
 
-export default theme
+export default theme;

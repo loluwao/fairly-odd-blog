@@ -1,16 +1,16 @@
-import { useQuery } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query';
 
-import type { WordPressPost } from './types'
-import { decodeHtmlEntities } from './utils'
+import { decodeHtmlEntities } from './utils';
+import type { WordPressPost } from './types';
 
-const BLOG_API = import.meta.env.VITE_BLOG_API
+const BLOG_API = import.meta.env.VITE_BLOG_API;
 
 export const usePosts = (page: number) => {
   return useQuery<WordPressPost[] | undefined>({
     queryKey: ['get-reviews', page],
     queryFn: async () => {
-      const response = await fetch(`${BLOG_API}/posts?page=${page}&limit=10`)
-      const data = await response.json()
+      const response = await fetch(`${BLOG_API}/posts?page=${page}&limit=10`);
+      const data = await response.json();
 
       const posts = data.posts.map((value: any) => {
         return {
@@ -22,10 +22,10 @@ export const usePosts = (page: number) => {
           featured_image: value.featured_image,
           rawContent: value.content,
           slug: value.slug,
-        } as WordPressPost
-      })
+        } as WordPressPost;
+      });
 
-      return posts ?? undefined
+      return posts ?? undefined;
     },
-  })
-}
+  });
+};

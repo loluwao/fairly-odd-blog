@@ -11,18 +11,18 @@ export const decodeHtmlEntities = (text: string): string => {
       .replace(/&lt;/g, '<')
       .replace(/&gt;/g, '>')
       .replace(/&quot;/g, '"')
-      .replace(/&#038;/g, '&')
+      .replace(/&#038;/g, '&');
   }
 
   // Browser - use DOMParser for comprehensive decoding
-  const parser = new DOMParser()
-  const decoded = parser.parseFromString(text, 'text/html').body.textContent
+  const parser = new DOMParser();
+  const decoded = parser.parseFromString(text, 'text/html').body.textContent;
 
-  return decoded || text
-}
+  return decoded || text;
+};
 
 export const formatDate = (dateString: string): string => {
-  const date = new Date(dateString)
+  const date = new Date(dateString);
 
   return new Intl.DateTimeFormat('en-US', {
     month: 'long',
@@ -31,5 +31,5 @@ export const formatDate = (dateString: string): string => {
     hour: 'numeric',
     minute: '2-digit',
     hour12: true,
-  }).format(date)
-}
+  }).format(date);
+};

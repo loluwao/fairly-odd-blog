@@ -1,24 +1,14 @@
-import { Button, Stack } from '@mui/material'
-import { useNavigate } from '@tanstack/react-router'
+import { Stack } from '@mui/material';
 
-export default function NavigationBar() {
-  const navigate = useNavigate()
+import theme from '../theme';
 
-  const handleStatsClick = () => {
-    // const token = localStorage.getItem('lastfm_token')
-    // if (token) {
-    navigate({ to: '/stats' })
-    // } else {
-    //   const callbackUrl = `${window.location.origin}/stats/callback`
-    //   const authUrl = `https://www.last.fm/api/auth/?api_key=${LASTFM_API_KEY}&cb=${encodeURIComponent(callbackUrl)}`
-    //   window.location.href = authUrl
-    // }
-  }
+import { MyLink } from './MyLink';
 
+export const NavigationBar: React.FC = () => {
   return (
-    <Stack width={60} padding={4}>
-      <Button onClick={() => navigate({ to: '/blog' })}>Reviews</Button>
-      <Button onClick={handleStatsClick}>Stats</Button>
+    <Stack width={60} gap={5} padding={10} sx={{ position: 'fixed', top: 0, left: 0, zIndex: 1000 }}>
+      <MyLink href='/blog' color={theme.palette.color.neonPink} text='BLOG' />
+      <MyLink href='/stats' color={theme.palette.color.neonPink} text='STATS' />
     </Stack>
-  )
-}
+  );
+};

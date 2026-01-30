@@ -1,7 +1,7 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router';
 
-import { BlogPage } from '../../blog/BlogPage'
-import { PageWrapper } from '../../components/PageWrapper'
+import { BlogPage } from '../../blog/BlogPage';
+import { PageWrapper } from '../../components/PageWrapper';
 
 export const Route = createFileRoute('/blog/')({
   component: () => (
@@ -10,4 +10,4 @@ export const Route = createFileRoute('/blog/')({
     </PageWrapper>
   ),
   // errorComponent: <ErrorPage />
-})
+});

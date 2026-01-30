@@ -1,23 +1,22 @@
-import { useEffect } from 'react'
+import { List, ListItem, Stack, Typography } from '@mui/material';
 
-import { PageLayout } from '../components/PageLayout'
-
-import { useLyrics, useTopTracks } from './queries'
+import { MyLink } from '../components/MyLink';
+import { PageLayout } from '../components/PageLayout';
+import theme from '../theme';
 
 export const StatsPage: React.FC = () => {
-
-  const { data: tracks } = useTopTracks('temitturner', '7day')
-  const { data: lyrics } = useLyrics(tracks?.[0]?.artist.name ?? '', tracks?.[0]?.name ?? '')
-
-  useEffect(() => {
-    console.log(lyrics)
-  }, [lyrics])
-
   return (
     <PageLayout
       header={'STATS'}
-      content={<></>}
+      content={<Stack width={600}>
+        <List>
+          <ListItem><MyLink color={theme.palette.color.neonPink} text={'Ear wordssss:'} href='/stats/earwords'/>
+            <Typography variant='body1'>This takes your selected number of top songs from YOUR SELECTED TIME FRAME and gives you the top words from those songs. Right now only works with Last.fm but I'm working on the other streaming platforms</Typography>
+          </ListItem>
+          <ListItem><Typography>AND MUCH MORE TO COME</Typography></ListItem>
+        </List>
+      </Stack>}
     />
-  )
+  );
 
-}
+};

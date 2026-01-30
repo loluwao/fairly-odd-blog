@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 interface YouTubeEmbedProps {
   videoId: string
@@ -32,5 +32,5 @@ export const YouTubeEmbed: React.FC<YouTubeEmbedProps> = ({
         }}
       />
     </div>
-  )
-}
+  );
+};

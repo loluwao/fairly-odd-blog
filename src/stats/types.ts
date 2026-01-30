@@ -1,20 +1,20 @@
 export interface TopArtist {
-    name: string;
-    playcount: string;
-    url: string;
-    image: { '#text': string; size: string }[];
-  }
+  name: string;
+  playcount: string;
+  url: string;
+  image: { '#text': string; size: string }[];
+}
 
 export interface TopArtistsResponse {
-    topartists: {
-      artist: TopArtist[];
-      '@attr': {
-        user: string;
-        totalPages: string;
-        total: string;
-      };
+  topartists: {
+    artist: TopArtist[];
+    '@attr': {
+      user: string;
+      totalPages: string;
+      total: string;
     };
-  }
+  };
+}
 
 export type TimeFrame = 'overall' | '7day' | '1month' | '3month' | '6month' | '12month';
 
@@ -45,4 +45,14 @@ export interface LyricsResponse {
   artist: string;
   lyrics: string;
   url: string;
+}
+
+export interface WordCount {
+  word: string;
+  count: number;
+}
+
+export interface TopWordsResponse {
+  words: WordCount[];
+  total_tokens: number;
 }

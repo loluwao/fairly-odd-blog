@@ -1,6 +1,6 @@
-import { Card, Stack, Typography } from '@mui/material'
+import { Card, Stack, Typography } from '@mui/material';
 
-import theme from '../theme'
+import theme from '../theme';
 
 export const ArticleCard: React.FC<{
   header: string
@@ -12,7 +12,7 @@ export const ArticleCard: React.FC<{
     <Card
       onClick={onClick}
       sx={{
-        width: 400,
+        width: 500,
         borderWidth: 1,
         borderColor: 'black',
         borderStyle: 'solid',
@@ -25,9 +25,9 @@ export const ArticleCard: React.FC<{
     >
       <img src={imgSrc} height={100} />
       <Stack margin={2} gap={1}>
-        <Typography variant="h2">{header}</Typography>
-        <Typography variant="body1">{previewText}</Typography>
+        <Typography variant="h2" color={theme.palette.color.darkGray}>{header}</Typography>
+        <Typography variant="body1" color={theme.palette.color.darkGray}>{previewText}</Typography>
       </Stack>
     </Card>
-  )
-}
+  );
+};
