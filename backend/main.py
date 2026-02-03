@@ -7,6 +7,10 @@ from bs4 import BeautifulSoup
 import re
 import os
 from nltk.stem import WordNetLemmatizer
+import time
+
+last_request_time = 0
+MIN_REQUEST_INTERVAL = 1.5
 
 load_dotenv()
 
@@ -68,18 +72,34 @@ def clean_lyrics(raw_lyrics: str) -> str:
 
 def scrape_lyrics(song_url: str):
     """scrape lyrics from a Genius song page"""
-    page = requests.get(song_url, headers={"User-Agent": HEADERS["User-Agent"]})
-    page.raise_for_status()
-
-    soup = BeautifulSoup(page.text, "html.parser")
-
-    lyrics_containers = soup.find_all("div", {"data-lyrics-container": "true"})
-
-    if lyrics_containers:
-        raw_lyrics = "\n".join([container.get_text(separator="\n") for container in lyrics_containers])
-        return clean_lyrics(raw_lyrics)
-
-    return None
+    global last_request_time
+    
+    # Rate limiting
+    time_since_last = time.time() - last_request_time
+    if time_since_last < MIN_REQUEST_INTERVAL:
+        time.sleep(MIN_REQUEST_INTERVAL - time_since_last)
+    
+    scraping_headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+        'Accept-Language': 'en-US,en;q=0.9',
+        'Referer': 'https://genius.com/',
+    }
+    
+    try:
+        page = requests.get(song_url, headers=scraping_headers, timeout=10)
+        last_request_time = time.time()
+        page.raise_for_status()
+        soup = BeautifulSoup(page.text, "html.parser")
+        lyrics_containers = soup.find_all("div", {"data-lyrics-container": "true"})
+        if lyrics_containers:
+            raw_lyrics = "\n".join([container.get_text(separator="\n") for container in lyrics_containers])
+            return clean_lyrics(raw_lyrics)
+        return None
+    except requests.exceptions.HTTPError as e:
+        if e.response.status_code == 403:
+            print(f"403 Forbidden for {song_url}")
+        return None  # Return None instead of raising to keep processing other songs
 
 
 @app.get("/lyrics")
