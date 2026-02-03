@@ -29,6 +29,22 @@ genius = lyricsgenius.Genius(GENIUS_TOKEN, verbose=False, remove_section_headers
 BROWSER_UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
 
 
+def clean_lyrics(raw_lyrics: str) -> str:
+    """strip Genius metadata from scraped lyrics"""
+    # find the first section header like [Verse 1], [Chorus], [Intro], etc.
+    section_match = re.search(
+        r'\[(?:Chorus|Verse|Intro|Outro|Bridge|Pre-Chorus|Hook|Refrain|Interlude|Part|Instrumental).*?\]',
+        raw_lyrics, re.IGNORECASE
+    )
+    if section_match:
+        raw_lyrics = raw_lyrics[section_match.start():]
+
+    # remove trailing "Embed" or "123Embed"
+    raw_lyrics = re.sub(r'\d*Embed$', '', raw_lyrics)
+
+    return raw_lyrics.strip()
+
+
 def scrape_lyrics(song_url: str):
     """scrape lyrics from a Genius page with a browser User-Agent"""
     page = requests.get(song_url, headers={"User-Agent": BROWSER_UA})
@@ -39,7 +55,8 @@ def scrape_lyrics(song_url: str):
     if not containers:
         return None
 
-    return "\n".join(c.get_text(separator="\n") for c in containers)
+    raw = "\n".join(c.get_text(separator="\n") for c in containers)
+    return clean_lyrics(raw)
 
 
 def find_song(track: str, artist: str):
