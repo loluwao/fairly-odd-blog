@@ -13,7 +13,7 @@ export const ArticleCard: React.FC<{
     <Card
       onClick={onClick}
       sx={{
-        width: 500,
+        width: { xs: '85vw', sm: 500 },
         ...sx,
         borderWidth: 1,
         borderColor: 'black',
