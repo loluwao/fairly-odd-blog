@@ -155,7 +155,7 @@ def get_top_words(names: str, artists: str, playcounts: str, limit: int = 20):
         "there", "when", "where", "why", "how", "all", "each", "few", "more",
         "most", "other", "some", "such",  "nor", "not", "only", "own",
         "same", "so", "than", "too", "very", "can", "will", "just",
-        "don", "should", "now", "ain",
+        "don", "should", "now", "ain", "nigga",
         "aren", "couldn", "didn", "doesn", "hadn", "hasn", "haven", "isn",
          "mightn", "mustn", "needn", "shan", "shouldn", "wasn", "weren",
         "won", "wouldn", "ive", "youre", "youve", "youll", "youd",
@@ -172,7 +172,7 @@ def get_top_words(names: str, artists: str, playcounts: str, limit: int = 20):
                 lyrics = scrape_lyrics(song["url"])
                 if lyrics:
                     tokens = tokenize_text(lyrics)
-                    unique_words = set(t for t in tokens if t not in stop_words and len(t) > 2)
+                    unique_words = set(t for t in tokens if t not in stop_words and len(t) > 1)
                     lemmatized_words = set(lemmatizer.lemmatize(word) for word in unique_words)
                     for word in lemmatized_words:
                         word_counts[word] += playcount

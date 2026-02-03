@@ -1,5 +1,4 @@
 import { useQuery } from '@tanstack/react-query';
-
 import { decodeHtmlEntities } from './utils';
 import type { WordPressPost } from './types';
 

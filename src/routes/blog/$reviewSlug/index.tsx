@@ -1,5 +1,4 @@
 import { createFileRoute } from '@tanstack/react-router';
-
 import { PostPage } from '../../../blog/PostPage';
 import { PageWrapper } from '../../../components/PageWrapper';
 

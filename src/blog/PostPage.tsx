@@ -3,11 +3,9 @@ import { useParams } from '@tanstack/react-router';
 import DOMPurify from 'dompurify';
 import parse, { domToReact } from 'html-react-parser';
 import { useEffect, useMemo, useState } from 'react';
-
 import { PageLayout } from '../components/PageLayout';
 import { YouTubeEmbed } from '../components/YouTubeEmbed';
 import theme from '../theme';
-
 import { usePosts } from './queries';
 import { formatDate } from './utils';
 import type { WordPressPost } from './types';
@@ -18,14 +16,14 @@ const ArticleHeading: React.FC<{ children?: React.ReactNode }> = ({
   children,
 }) => {
   return (
-    <Typography color={theme.palette.color.neonPink} variant="h3">{children}</Typography>
+    <Typography color={theme.palette.color.white} variant="h3">{children}</Typography>
   );
 };
 
 // renders article paragraphs
 const ArticleParagraph: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
   return (
-    <Typography variant="body1" color={theme.palette.color.white}>
+    <Typography variant="body1">
       {children}
     </Typography>
   );
@@ -138,7 +136,7 @@ const parseWordPressContent = (content: string): React.ReactNode => {
         if (element.name === 'ul') {
           return (
             <ul style={{
-              color: theme.palette.color.white,
+              color: theme.palette.color.whiteAlpha70,
               paddingLeft: '2rem',
               marginBottom: '1rem',
             }}>

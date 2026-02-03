@@ -1,5 +1,4 @@
 import { useQuery } from '@tanstack/react-query';
-
 import type { LyricsResponse, TimeFrame, TopArtist, TopArtistsResponse, TopTrack, TopTracksResponse, TopWordsResponse } from './types';
 
 const LASTFM_API_KEY = import.meta.env.VITE_LASTFM_API_KEY;

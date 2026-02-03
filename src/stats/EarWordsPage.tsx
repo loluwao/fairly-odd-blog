@@ -1,10 +1,8 @@
 import { Box, Button, CircularProgress, FormControl, InputLabel, MenuItem, Select, Stack, TextField, Tooltip, Typography } from '@mui/material';
 import { useMemo, useState } from 'react';
-
 import NumberField from '../components/NumberField';
 import { PageLayout } from '../components/PageLayout';
 import theme from '../theme';
-
 import { useTopTracks, useTopWords } from './queries';
 import type { TimeFrame, TopWordsResponse } from './types';
 
@@ -24,30 +22,32 @@ export const EarWords: React.FC = () => {
 
   const [queryUser, setQueryUser] = useState<string | null>(null);
   const [queryTimeFrame, setQueryTimeFrame] = useState<TimeFrame>('7day');
+  const [queryLimit, setQueryLimit] = useState(20);
 
-  const { data: tracks, isLoading: tracksLoading } = useTopTracks(queryUser ?? '', queryTimeFrame, limit, { enabled: !!queryUser });
+  const { data: tracks, isLoading: tracksLoading } = useTopTracks(queryUser ?? '', queryTimeFrame, queryLimit, { enabled: !!queryUser });
   const { data: topWords, isLoading: wordsLoading } = useTopWords(tracks ?? []);
 
   const handleSubmit = () => {
     setQueryUser(inputUser);
     setQueryTimeFrame(inputTimeFrame);
+    setQueryLimit(limit);
   };
 
   return (
     <PageLayout
-      header={'EAR WORM(D)S...??'}
+      header={'EAR WORM(D)S..?'}
       subheader={'Most frequent words from your most frequent songs!!!'}
       content={<Stack width={'100%'} padding={4} alignItems={'center'}>
-        <Stack direction="row" spacing={2} alignItems={'center'} mb={2} >
+        <Stack direction={{ xs: 'column', md: 'row' }} spacing={2} alignItems={{ xs: '', md: 'center' }} mb={2} >
           <TextField
             variant='standard'
             label="Last.fm Username"
-            sx={{ width: 200 }}
+            sx={{ width: { xs: '100%', md: 200 } }}
             value={inputUser}
             onChange={(e) => setInputUser(e.target.value)}
           />
           <FormControl variant="standard" sx={{
-            width: 150,
+            width: { xs: '100%', md: 150 },
             '& .MuiInputLabel-root': { color: theme.palette.color.whiteAlpha70 },
             '& .MuiInput-underline:before': { borderBottomColor: theme.palette.color.whiteAlpha50 },
             '& .MuiInput-underline:hover:before': { borderBottomColor: theme.palette.color.white },
@@ -82,7 +82,7 @@ export const EarWords: React.FC = () => {
             }}
           />
           <Button variant="contained" onClick={handleSubmit}>
-            GO!!
+            GO
           </Button>
         </Stack>
         {!queryUser ? <></>

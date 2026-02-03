@@ -169,7 +169,7 @@ const theme = createTheme({
       fontFamily: '"Lora", serif',
       fontSize: '1.125rem', // 16px
       fontWeight: 400,
-      lineHeight: 1.7,
+      lineHeight: 1.8,
     },
     body2: {
       fontFamily: '"Lora", serif',
@@ -264,7 +264,7 @@ const theme = createTheme({
       defaultProps: {},
       styleOverrides: {
         root: () => ({
-          color: theme.palette.color.white,
+          color: theme.palette.color.whiteAlpha70,
         }),
       },
     },

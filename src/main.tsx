@@ -1,7 +1,6 @@
 import { RouterProvider, createRouter } from '@tanstack/react-router';
 import { StrictMode } from 'react';
 import ReactDOM from 'react-dom/client';
-
 import '@fontsource/manrope/300.css';
 import '@fontsource/manrope/400.css';
 import '@fontsource/manrope/500.css';

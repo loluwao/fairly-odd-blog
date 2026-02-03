@@ -1,18 +1,20 @@
 import { Card, Stack, Typography } from '@mui/material';
-
 import theme from '../theme';
+import type { SxProps, Theme } from '@mui/material';
 
 export const ArticleCard: React.FC<{
   header: string
   previewText: string
   imgSrc: string
   onClick: () => void
-}> = ({ header, previewText, imgSrc, onClick }) => {
+  sx?: SxProps<Theme>
+}> = ({ header, previewText, imgSrc, onClick, sx }) => {
   return (
     <Card
       onClick={onClick}
       sx={{
         width: 500,
+        ...sx,
         borderWidth: 1,
         borderColor: 'black',
         borderStyle: 'solid',

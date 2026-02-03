@@ -60,6 +60,10 @@ export default [
       '@stylistic/no-trailing-spaces': 'error',
       '@stylistic/no-multiple-empty-lines': ['error', { max: 1, maxEOF: 0 }],
       '@stylistic/eol-last': ['error', 'always'],
+      'import/order': ['error', {
+        'groups': ['builtin', 'external', 'internal', 'parent', 'sibling', 'index', 'object', 'type'],
+        'newlines-between': 'never',
+      }],
     },
   },
 ]
