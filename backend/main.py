@@ -2,15 +2,12 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 from collections import Counter
+import lyricsgenius
 import requests
 from bs4 import BeautifulSoup
 import re
 import os
 from nltk.stem import WordNetLemmatizer
-import time
-
-last_request_time = 0
-MIN_REQUEST_INTERVAL = 1.5
 
 load_dotenv()
 
@@ -25,81 +22,42 @@ app.add_middleware(
 )
 
 GENIUS_TOKEN = os.getenv("GENIUS_API_TOKEN")
-GENIUS_API_URL = "https://api.genius.com"
 
-HEADERS = {
-    "Authorization": f"Bearer {GENIUS_TOKEN}",
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
-}
+genius = lyricsgenius.Genius(GENIUS_TOKEN, verbose=False, remove_section_headers=False)
 
 
-def search_song(track: str, artist: str):
-    """search for a song on Genius"""
-    search_url = f"{GENIUS_API_URL}/search"
-    params = {"q": f"{track} {artist}"}
-
-    response = requests.get(search_url, headers=HEADERS, params=params)
-    response.raise_for_status()
-
-    hits = response.json()["response"]["hits"]
-
-    for hit in hits:
-        if hit["type"] == "song":
-            return hit["result"]
-    return None
-
-
-def clean_lyrics(raw_lyrics: str) -> str:
-    """remove Genius metadata and other crap from lyrics"""
-
-    # find where lyrics start
-    section_pattern = r'\[(?:Chorus|Verse|Intro|Outro|Bridge|Pre-Chorus|Hook|Refrain|Interlude|Skit|Part|Produced|Instrumental).*?\]'
-    section_match = re.search(section_pattern, raw_lyrics, re.IGNORECASE)
-
-    # if there's a section marker, return that and onwards
-    if section_match:
-        return raw_lyrics[section_match.start():].strip()
-
-    # otherwise, remove metadata patterns
-    cleaned = re.sub(r'^\d+\s*Contributors?.*?Lyrics\n?', '', raw_lyrics, flags=re.DOTALL | re.IGNORECASE)
-    read_more_match = re.search(r'Read More\s*\n?', cleaned)
-    if read_more_match:
-        cleaned = cleaned[read_more_match.end():].strip()
-    cleaned = re.sub(r'^(Translations?\n.*?\n)+', '', cleaned, flags=re.MULTILINE)
-
-    return cleaned.strip()
+BROWSER_UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
 
 
 def scrape_lyrics(song_url: str):
-    """scrape lyrics from a Genius song page"""
-    global last_request_time
-    
-    # Rate limiting
-    time_since_last = time.time() - last_request_time
-    if time_since_last < MIN_REQUEST_INTERVAL:
-        time.sleep(MIN_REQUEST_INTERVAL - time_since_last)
-    
-    scraping_headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-        'Accept-Language': 'en-US,en;q=0.9',
-        'Referer': 'https://genius.com/',
-    }
-    
-    try:
-        page = requests.get(song_url, headers=scraping_headers, timeout=10)
-        last_request_time = time.time()
-        page.raise_for_status()
-        soup = BeautifulSoup(page.text, "html.parser")
-        lyrics_containers = soup.find_all("div", {"data-lyrics-container": "true"})
-        if lyrics_containers:
-            raw_lyrics = "\n".join([container.get_text(separator="\n") for container in lyrics_containers])
-            return clean_lyrics(raw_lyrics)
+    """scrape lyrics from a Genius page with a browser User-Agent"""
+    page = requests.get(song_url, headers={"User-Agent": BROWSER_UA})
+    page.raise_for_status()
+
+    soup = BeautifulSoup(page.text, "html.parser")
+    containers = soup.find_all("div", {"data-lyrics-container": "true"})
+    if not containers:
         return None
-    except requests.exceptions.HTTPError as e:
-        if e.response.status_code == 403:
-            print(f"403 Forbidden for {song_url}")
-        return None  # Return None instead of raising to keep processing other songs
+
+    return "\n".join(c.get_text(separator="\n") for c in containers)
+
+
+def find_song(track: str, artist: str):
+    """search via authenticated API, scrape lyrics directly"""
+    response = genius.search_songs(f"{track} {artist}")
+    hits = response.get("hits", [])
+    if not hits:
+        return None
+
+    song_info = hits[0]["result"]
+    lyrics = scrape_lyrics(song_info["url"])
+
+    return {
+        "title": song_info["title"],
+        "artist": song_info["primary_artist"]["name"],
+        "url": song_info["url"],
+        "lyrics": lyrics,
+    }
 
 
 @app.get("/lyrics")
@@ -109,20 +67,13 @@ def get_lyrics(artist: str, track: str):
         raise HTTPException(status_code=500, detail="Genius API token not configured")
 
     try:
-        song = search_song(track, artist)
+        song = find_song(track, artist)
         if not song:
             raise HTTPException(status_code=404, detail="Song not found")
 
-        lyrics = scrape_lyrics(song["url"])
-
-        return {
-            "title": song["title"],
-            "artist": song["primary_artist"]["name"],
-            "lyrics": lyrics,
-            "url": song["url"],
-        }
-    except requests.exceptions.HTTPError as e:
-        raise HTTPException(status_code=e.response.status_code, detail=str(e))
+        return song
+    except HTTPException:
+        raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -143,12 +94,10 @@ def tokenize_lyrics(names: str, artists: str):
 
     for track, artist in zip(track_names, artist_names):
         try:
-            song = search_song(track.strip(), artist.strip())
-            if song:
-                lyrics = scrape_lyrics(song["url"])
-                if lyrics:
-                    tokens = tokenize_text(lyrics)
-                    all_tokens.extend(tokens)
+            song = find_song(track.strip(), artist.strip())
+            if song and song["lyrics"]:
+                tokens = tokenize_text(song["lyrics"])
+                all_tokens.extend(tokens)
         except Exception:
             continue
 
@@ -187,16 +136,14 @@ def get_top_words(names: str, artists: str, playcounts: str, limit: int = 20):
 
     for track, artist, playcount in zip(track_names, artist_names, play_counts):
         try:
-            song = search_song(track.strip(), artist.strip())
-            if song:
-                lyrics = scrape_lyrics(song["url"])
-                if lyrics:
-                    tokens = tokenize_text(lyrics)
-                    unique_words = set(t for t in tokens if t not in stop_words and len(t) > 1)
-                    lemmatized_words = set(lemmatizer.lemmatize(word) for word in unique_words)
-                    for word in lemmatized_words:
-                        word_counts[word] += playcount
-                    total_tokens += len(lemmatized_words) * playcount
+            song = find_song(track.strip(), artist.strip())
+            if song and song["lyrics"]:
+                tokens = tokenize_text(song["lyrics"])
+                unique_words = set(t for t in tokens if t not in stop_words and len(t) > 1)
+                lemmatized_words = set(lemmatizer.lemmatize(word) for word in unique_words)
+                for word in lemmatized_words:
+                    word_counts[word] += playcount
+                total_tokens += len(lemmatized_words) * playcount
         except Exception as e:
             print(f"Error processing {track} by {artist}: {e}")
             continue
