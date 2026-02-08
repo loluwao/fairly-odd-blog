@@ -145,6 +145,9 @@ def get_top_words(names: str, artists: str, playcounts: str, limit: int = 20):
         "aren", "couldn", "didn", "doesn", "hadn", "hasn", "haven", "isn",
          "mightn", "mustn", "needn", "shan", "shouldn", "wasn", "weren",
         "won", "wouldn", "ive", "youre", "youve", "youll", "youd",
+        "an", "as", "at", "be", "by", "do", "go", "he", "if", "in",
+        "it", "me", "my", "no", "of", "on", "or", "up", "us", "we",
+        "am", "ah", "oh", "ok", "em",
     }
 
     lemmatizer = WordNetLemmatizer()
