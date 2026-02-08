@@ -165,16 +165,16 @@ const parseWordPressContent = (content: string): React.ReactNode => {
         }
         if (element.name === 'em') {
           return (
-            <Typography fontStyle={'italic'}>
+            <span style={{ fontStyle: 'italic' }}>
               {domToReact(element.children as DOMNode[], parserOptions) }
-            </Typography>
+            </span>
           );
         }
         if (element.name === 'strong') {
           return (
-            <Typography fontStyle={'bold'}>
+            <span style={{ fontWeight: 'bold' }}>
               {domToReact(element.children as DOMNode[], parserOptions) }
-            </Typography>
+            </span>
           );
         }
         if (
