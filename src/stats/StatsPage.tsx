@@ -13,7 +13,7 @@ export const StatsPage: React.FC = () => {
             <br/>
             <Typography variant='body1'>This takes your selected number of top songs from YOUR SELECTED TIME FRAME and gives you the top words from those songs. Right now only works with Last.fm but I'm working on the other streaming platforms</Typography>
           </ListItem>
-          <ListItem sx={{ gap: 1 }}><MyLink color={theme.palette.color.neonPink} text={'Lyrical complexity'} href='/stats/lyrical-comprehension'/>
+          <ListItem sx={{ gap: 1 }}><MyLink color={theme.palette.color.neonPink} text={'Lyrical complexity'} href='/stats/lyrical-complexity'/>
             <br/>
             <Typography variant='body1'>This takes your top songs and assigns them a "grade" for their "complexity". It's based on lyrical diversity and length of the words </Typography>
           </ListItem>

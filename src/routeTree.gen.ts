@@ -12,7 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as StatsIndexRouteImport } from './routes/stats/index'
 import { Route as BlogIndexRouteImport } from './routes/blog/index'
-import { Route as StatsLyricalComprehensionIndexRouteImport } from './routes/stats/lyrical-comprehension/index'
+import { Route as StatsLyricalComplexityIndexRouteImport } from './routes/stats/lyrical-complexity/index'
 import { Route as StatsEarwordsIndexRouteImport } from './routes/stats/earwords/index'
 import { Route as BlogReviewSlugIndexRouteImport } from './routes/blog/$reviewSlug/index'
 
@@ -31,10 +31,10 @@ const BlogIndexRoute = BlogIndexRouteImport.update({
   path: '/blog/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const StatsLyricalComprehensionIndexRoute =
-  StatsLyricalComprehensionIndexRouteImport.update({
-    id: '/stats/lyrical-comprehension/',
-    path: '/stats/lyrical-comprehension/',
+const StatsLyricalComplexityIndexRoute =
+  StatsLyricalComplexityIndexRouteImport.update({
+    id: '/stats/lyrical-complexity/',
+    path: '/stats/lyrical-complexity/',
     getParentRoute: () => rootRouteImport,
   } as any)
 const StatsEarwordsIndexRoute = StatsEarwordsIndexRouteImport.update({
@@ -54,7 +54,7 @@ export interface FileRoutesByFullPath {
   '/stats': typeof StatsIndexRoute
   '/blog/$reviewSlug': typeof BlogReviewSlugIndexRoute
   '/stats/earwords': typeof StatsEarwordsIndexRoute
-  '/stats/lyrical-comprehension': typeof StatsLyricalComprehensionIndexRoute
+  '/stats/lyrical-complexity': typeof StatsLyricalComplexityIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -62,7 +62,7 @@ export interface FileRoutesByTo {
   '/stats': typeof StatsIndexRoute
   '/blog/$reviewSlug': typeof BlogReviewSlugIndexRoute
   '/stats/earwords': typeof StatsEarwordsIndexRoute
-  '/stats/lyrical-comprehension': typeof StatsLyricalComprehensionIndexRoute
+  '/stats/lyrical-complexity': typeof StatsLyricalComplexityIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -71,7 +71,7 @@ export interface FileRoutesById {
   '/stats/': typeof StatsIndexRoute
   '/blog/$reviewSlug/': typeof BlogReviewSlugIndexRoute
   '/stats/earwords/': typeof StatsEarwordsIndexRoute
-  '/stats/lyrical-comprehension/': typeof StatsLyricalComprehensionIndexRoute
+  '/stats/lyrical-complexity/': typeof StatsLyricalComplexityIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -81,7 +81,7 @@ export interface FileRouteTypes {
     | '/stats'
     | '/blog/$reviewSlug'
     | '/stats/earwords'
-    | '/stats/lyrical-comprehension'
+    | '/stats/lyrical-complexity'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -89,7 +89,7 @@ export interface FileRouteTypes {
     | '/stats'
     | '/blog/$reviewSlug'
     | '/stats/earwords'
-    | '/stats/lyrical-comprehension'
+    | '/stats/lyrical-complexity'
   id:
     | '__root__'
     | '/'
@@ -97,7 +97,7 @@ export interface FileRouteTypes {
     | '/stats/'
     | '/blog/$reviewSlug/'
     | '/stats/earwords/'
-    | '/stats/lyrical-comprehension/'
+    | '/stats/lyrical-complexity/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -106,7 +106,7 @@ export interface RootRouteChildren {
   StatsIndexRoute: typeof StatsIndexRoute
   BlogReviewSlugIndexRoute: typeof BlogReviewSlugIndexRoute
   StatsEarwordsIndexRoute: typeof StatsEarwordsIndexRoute
-  StatsLyricalComprehensionIndexRoute: typeof StatsLyricalComprehensionIndexRoute
+  StatsLyricalComplexityIndexRoute: typeof StatsLyricalComplexityIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -132,11 +132,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BlogIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/stats/lyrical-comprehension/': {
-      id: '/stats/lyrical-comprehension/'
-      path: '/stats/lyrical-comprehension'
-      fullPath: '/stats/lyrical-comprehension'
-      preLoaderRoute: typeof StatsLyricalComprehensionIndexRouteImport
+    '/stats/lyrical-complexity/': {
+      id: '/stats/lyrical-complexity/'
+      path: '/stats/lyrical-complexity'
+      fullPath: '/stats/lyrical-complexity'
+      preLoaderRoute: typeof StatsLyricalComplexityIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/stats/earwords/': {
@@ -162,7 +162,7 @@ const rootRouteChildren: RootRouteChildren = {
   StatsIndexRoute: StatsIndexRoute,
   BlogReviewSlugIndexRoute: BlogReviewSlugIndexRoute,
   StatsEarwordsIndexRoute: StatsEarwordsIndexRoute,
-  StatsLyricalComprehensionIndexRoute: StatsLyricalComprehensionIndexRoute,
+  StatsLyricalComplexityIndexRoute: StatsLyricalComplexityIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
