@@ -56,3 +56,23 @@ export interface TopWordsResponse {
   words: WordCount[];
   total_tokens: number;
 }
+
+export interface ComplexityResult {
+  score: number;
+  vocabulary_diversity: number;
+  average_word_length: number;
+  rare_word_ratio: number;
+  total_words: number;
+  unique_words: number;
+  title: string;
+  artist: string;
+}
+
+export const timeFrameOptions: { value: TimeFrame; label: string }[] = [
+  { value: '7day', label: 'Last 7 Days' },
+  { value: '1month', label: 'Last Month' },
+  { value: '3month', label: 'Last 3 Months' },
+  { value: '6month', label: 'Last 6 Months' },
+  { value: '12month', label: 'Last Year' },
+  { value: 'overall', label: 'All Time' },
+];

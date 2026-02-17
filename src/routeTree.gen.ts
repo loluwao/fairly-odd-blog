@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as StatsIndexRouteImport } from './routes/stats/index'
 import { Route as BlogIndexRouteImport } from './routes/blog/index'
+import { Route as StatsLyricalComprehensionIndexRouteImport } from './routes/stats/lyrical-comprehension/index'
 import { Route as StatsEarwordsIndexRouteImport } from './routes/stats/earwords/index'
 import { Route as BlogReviewSlugIndexRouteImport } from './routes/blog/$reviewSlug/index'
 
@@ -30,6 +31,12 @@ const BlogIndexRoute = BlogIndexRouteImport.update({
   path: '/blog/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const StatsLyricalComprehensionIndexRoute =
+  StatsLyricalComprehensionIndexRouteImport.update({
+    id: '/stats/lyrical-comprehension/',
+    path: '/stats/lyrical-comprehension/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const StatsEarwordsIndexRoute = StatsEarwordsIndexRouteImport.update({
   id: '/stats/earwords/',
   path: '/stats/earwords/',
@@ -47,6 +54,7 @@ export interface FileRoutesByFullPath {
   '/stats': typeof StatsIndexRoute
   '/blog/$reviewSlug': typeof BlogReviewSlugIndexRoute
   '/stats/earwords': typeof StatsEarwordsIndexRoute
+  '/stats/lyrical-comprehension': typeof StatsLyricalComprehensionIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -54,6 +62,7 @@ export interface FileRoutesByTo {
   '/stats': typeof StatsIndexRoute
   '/blog/$reviewSlug': typeof BlogReviewSlugIndexRoute
   '/stats/earwords': typeof StatsEarwordsIndexRoute
+  '/stats/lyrical-comprehension': typeof StatsLyricalComprehensionIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -62,12 +71,25 @@ export interface FileRoutesById {
   '/stats/': typeof StatsIndexRoute
   '/blog/$reviewSlug/': typeof BlogReviewSlugIndexRoute
   '/stats/earwords/': typeof StatsEarwordsIndexRoute
+  '/stats/lyrical-comprehension/': typeof StatsLyricalComprehensionIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/blog' | '/stats' | '/blog/$reviewSlug' | '/stats/earwords'
+  fullPaths:
+    | '/'
+    | '/blog'
+    | '/stats'
+    | '/blog/$reviewSlug'
+    | '/stats/earwords'
+    | '/stats/lyrical-comprehension'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/blog' | '/stats' | '/blog/$reviewSlug' | '/stats/earwords'
+  to:
+    | '/'
+    | '/blog'
+    | '/stats'
+    | '/blog/$reviewSlug'
+    | '/stats/earwords'
+    | '/stats/lyrical-comprehension'
   id:
     | '__root__'
     | '/'
@@ -75,6 +97,7 @@ export interface FileRouteTypes {
     | '/stats/'
     | '/blog/$reviewSlug/'
     | '/stats/earwords/'
+    | '/stats/lyrical-comprehension/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -83,6 +106,7 @@ export interface RootRouteChildren {
   StatsIndexRoute: typeof StatsIndexRoute
   BlogReviewSlugIndexRoute: typeof BlogReviewSlugIndexRoute
   StatsEarwordsIndexRoute: typeof StatsEarwordsIndexRoute
+  StatsLyricalComprehensionIndexRoute: typeof StatsLyricalComprehensionIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -108,6 +132,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BlogIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/stats/lyrical-comprehension/': {
+      id: '/stats/lyrical-comprehension/'
+      path: '/stats/lyrical-comprehension'
+      fullPath: '/stats/lyrical-comprehension'
+      preLoaderRoute: typeof StatsLyricalComprehensionIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/stats/earwords/': {
       id: '/stats/earwords/'
       path: '/stats/earwords'
@@ -131,6 +162,7 @@ const rootRouteChildren: RootRouteChildren = {
   StatsIndexRoute: StatsIndexRoute,
   BlogReviewSlugIndexRoute: BlogReviewSlugIndexRoute,
   StatsEarwordsIndexRoute: StatsEarwordsIndexRoute,
+  StatsLyricalComprehensionIndexRoute: StatsLyricalComprehensionIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

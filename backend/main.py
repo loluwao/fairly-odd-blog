@@ -26,7 +26,19 @@ GENIUS_TOKEN = os.getenv("GENIUS_API_TOKEN")
 genius = lyricsgenius.Genius(GENIUS_TOKEN, verbose=False, remove_section_headers=False)
 
 
-BROWSER_UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+BROWSER_UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
+
+BROWSER_HEADERS = {
+    "User-Agent": BROWSER_UA,
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+    "Accept-Language": "en-US,en;q=0.5",
+    "Connection": "keep-alive",
+    "Upgrade-Insecure-Requests": "1",
+    "Sec-Fetch-Dest": "document",
+    "Sec-Fetch-Mode": "navigate",
+    "Sec-Fetch-Site": "none",
+    "Sec-Fetch-User": "?1",
+}
 
 
 def clean_lyrics(raw_lyrics: str) -> str:
@@ -47,7 +59,7 @@ def clean_lyrics(raw_lyrics: str) -> str:
 
 def scrape_lyrics(song_url: str):
     """scrape lyrics from a Genius page with a browser User-Agent"""
-    page = requests.get(song_url, headers={"User-Agent": BROWSER_UA})
+    page = requests.get(song_url, headers=BROWSER_HEADERS)
     page.raise_for_status()
 
     soup = BeautifulSoup(page.text, "html.parser")
@@ -59,6 +71,23 @@ def scrape_lyrics(song_url: str):
     return clean_lyrics(raw)
 
 
+def parse_artists(artist_str: str) -> list[str]:
+    """split an artist string like 'A, B feat. C & D' into individual names"""
+    parts = re.split(r',|feat\.?|ft\.?|&|\+|x(?:\s)', artist_str, flags=re.IGNORECASE)
+    return [p.strip().lower() for p in parts if p.strip()]
+
+
+def artists_match(query_artist: str, hit_artist: str) -> bool:
+    """check if any artist name from the query appears in the hit artist or vice versa"""
+    query_names = parse_artists(query_artist)
+    hit_names = parse_artists(hit_artist)
+    for qn in query_names:
+        for hn in hit_names:
+            if qn in hn or hn in qn:
+                return True
+    return False
+
+
 def find_song(track: str, artist: str):
     """search via authenticated API, scrape lyrics directly"""
     response = genius.search_songs(f"{track} {artist}")
@@ -66,7 +95,29 @@ def find_song(track: str, artist: str):
     if not hits:
         return None
 
-    song_info = hits[0]["result"]
+    # filter to actual song results with lyrics, preferring artist matches
+    song_info = None
+
+    # first pass: match artist and has complete lyrics
+    for hit in hits:
+        result = hit["result"]
+        if result.get("lyrics_state") != "complete":
+            continue
+        if artists_match(artist, result["primary_artist"]["name"]):
+            song_info = result
+            break
+
+    # second pass: any result with complete lyrics
+    if not song_info:
+        for hit in hits:
+            result = hit["result"]
+            if result.get("lyrics_state") == "complete":
+                song_info = result
+                break
+
+    if not song_info:
+        return None
+
     lyrics = scrape_lyrics(song_info["url"])
 
     return {
@@ -100,6 +151,69 @@ def tokenize_text(text: str) -> list[str]:
     text = text.lower()
     words = re.findall(r"[a-z]+", text)
     return words
+
+
+def lyrical_complexity(lyrics: str) -> dict:
+    """score how lyrically complex a song is based on vocabulary metrics"""
+    tokens = tokenize_text(lyrics)
+    if len(tokens) < 10:
+        return None
+
+    total = len(tokens)
+    freq = Counter(tokens)
+    unique_count = len(freq)
+
+    # vocabulary diversity: unique words / total words (type-token ratio)
+    ttr = unique_count / total
+
+    # average word length: proxy for vocabulary sophistication
+    avg_len = sum(len(w) for w in tokens) / total
+
+    # rare word ratio: words appearing only once (hapax legomena) / unique words
+    hapax_count = sum(1 for c in freq.values() if c == 1)
+    hapax_ratio = hapax_count / unique_count
+
+    # normalize avg word length to 0-1 (typical range 2-7 chars)
+    avg_len_norm = min(max((avg_len - 2) / 5, 0), 1)
+
+    score = (ttr * 0.3 + avg_len_norm * 0.3 + hapax_ratio * 0.4) * 100
+
+    return {
+        "score": round(score, 1),
+        "vocabulary_diversity": round(ttr, 3),
+        "average_word_length": round(avg_len, 2),
+        "rare_word_ratio": round(hapax_ratio, 3),
+        "total_words": total,
+        "unique_words": unique_count,
+    }
+
+
+@app.get("/lyrics/complexity")
+def get_complexity(names: str, artists: str):
+    """get lyrical complexity scores for a batch of songs"""
+    if not GENIUS_TOKEN:
+        raise HTTPException(status_code=500, detail="Genius API token not configured")
+
+    track_names = names.split(",")
+    artist_names = artists.split(",")
+    results = []
+
+    for track, artist in zip(track_names, artist_names):
+        try:
+            song = find_song(track.strip(), artist.strip())
+            if not song or not song["lyrics"]:
+                continue
+
+            score = lyrical_complexity(song["lyrics"])
+            if not score:
+                continue
+
+            results.append({**score, "title": song["title"], "artist": song["artist"]})
+        except Exception as e:
+            print(f"Error processing {track} by {artist}: {e}")
+            continue
+
+    return {"results": results}
 
 
 @app.get("/lyrics/tokens")
@@ -147,7 +261,7 @@ def get_top_words(names: str, artists: str, playcounts: str, limit: int = 20):
         "won", "wouldn", "ive", "youre", "youve", "youll", "youd",
         "an", "as", "at", "be", "by", "do", "go", "he", "if", "in",
         "it", "me", "my", "no", "of", "on", "or", "up", "us", "we",
-        "am", "ah", "oh", "ok", "em",
+        "am", "ah", "oh", "ok", "em", "re"
     }
 
     lemmatizer = WordNetLemmatizer()

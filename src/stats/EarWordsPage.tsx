@@ -4,16 +4,8 @@ import NumberField from '../components/NumberField';
 import { PageLayout } from '../components/PageLayout';
 import theme from '../theme';
 import { useTopTracks, useTopWords } from './queries';
+import { timeFrameOptions } from './types';
 import type { TimeFrame, TopWordsResponse } from './types';
-
-const timeFrameOptions: { value: TimeFrame; label: string }[] = [
-  { value: '7day', label: 'Last 7 Days' },
-  { value: '1month', label: 'Last Month' },
-  { value:  '3month', label: 'Last 3 Months' },
-  { value: '6month', label: 'Last 6 Months' },
-  { value: '12month', label: 'Last Year' },
-  { value: 'overall', label: 'All Time' },
-];
 
 export const EarWords: React.FC = () => {
   const [inputUser, setInputUser] = useState('');

@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import type { LyricsResponse, TimeFrame, TopArtist, TopArtistsResponse, TopTrack, TopTracksResponse, TopWordsResponse } from './types';
+import type { ComplexityResult, LyricsResponse, TimeFrame, TopArtist, TopArtistsResponse, TopTrack, TopTracksResponse, TopWordsResponse } from './types';
 
 const LASTFM_API_KEY = import.meta.env.VITE_LASTFM_API_KEY;
 const LASTFM_BASE_URL = 'https://ws.audioscrobbler.com/2.0/';
@@ -114,6 +114,25 @@ export const useTopWords = (tracks: TopTrack[], limit = 20) => {
       }
 
       return response.json();
+    },
+    enabled: tracks.length > 0,
+  });
+};
+
+export const useComplexity = (tracks: TopTrack[]) => {
+  const names = tracks.map(t => t.name).join(',');
+  const artists = tracks.map(t => t.artist.name).join(',');
+
+  return useQuery<ComplexityResult[]>({
+    queryKey: ['complexity', tracks.map(t => `${t.artist.name}-${t.name}`)],
+    queryFn: async () => {
+      const params = new URLSearchParams({ names, artists });
+      const response = await fetch(`${BACKEND_URL}/lyrics/complexity?${params}`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch complexity');
+      }
+      const data = await response.json();
+      return data.results;
     },
     enabled: tracks.length > 0,
   });
