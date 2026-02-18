@@ -75,6 +75,8 @@ npm run build      # production build
 
 ## Screenshots
 
-![alt text](<Screenshot 2026-02-18 at 8.35.32 AM.png>)
+<img width="912" height="517" alt="screenshot of the earwords page" src="https://github.com/user-attachments/assets/9317f312-a0f3-4537-a217-2104b1cee7c6" />
+<img width="806" height="490" alt="screenshot of the lyrical complexity page" src="https://github.com/user-attachments/assets/b904ca49-2234-455b-af10-3c3a82180321" />
+
 
 ---
