@@ -27,6 +27,7 @@ export const NavigationBar: React.FC = () => {
   return (
     <>
       <IconButton
+        aria-label="Open navigation menu"
         onClick={() => setOpen(true)}
         sx={{
           position: 'fixed',
@@ -73,6 +74,7 @@ export const NavigationBar: React.FC = () => {
           }}>
 
             <IconButton
+              aria-label="Close navigation menu"
               onClick={() => setOpen(false)}
               sx={{
                 color: theme.palette.color.whiteAlpha50,

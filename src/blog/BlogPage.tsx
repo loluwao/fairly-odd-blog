@@ -40,6 +40,7 @@ export const BlogPage: React.FC = () => {
             width='100%'
           >
             <IconButton
+              aria-label={viewMode === 'carousel' ? 'Switch to grid view' : 'Switch to carousel view'}
               onClick={() => setViewMode(viewMode === 'carousel' ? 'grid' : 'carousel')}
               sx={{
                 alignSelf: 'flex-end',

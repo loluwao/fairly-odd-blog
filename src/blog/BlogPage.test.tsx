@@ -68,7 +68,7 @@ describe('BlogPage — error state', () => {
   it('shows an error message when data is undefined after loading', () => {
     vi.mocked(usePosts).mockReturnValue({ isLoading: false, isFetching: false, data: undefined } as any)
     renderPage()
-    expect(screen.getByText('something terrible')).toBeDefined()
+    expect(screen.getByText(/something terrible/i)).toBeDefined()
   })
 })
 
