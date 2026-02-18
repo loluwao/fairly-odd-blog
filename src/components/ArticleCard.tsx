@@ -25,7 +25,7 @@ export const ArticleCard: React.FC<{
         },
       }}
     >
-      <img src={imgSrc} height={100} />
+      <img src={imgSrc} height={100} alt='album cover' />
       <Stack margin={2} gap={1}>
         <Typography variant="h2" color={theme.palette.color.darkGray}>{header}</Typography>
         <Typography variant="body1" color={theme.palette.color.darkGray}>{previewText}</Typography>

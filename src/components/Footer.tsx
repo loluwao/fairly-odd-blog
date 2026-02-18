@@ -3,7 +3,7 @@ import { Link, Stack, Typography } from '@mui/material';
 export const Footer: React.FC = () => {
   return (
     <Stack display={'flex'} direction={'row'} gap={2} width={'fit-content'}>
-      <img src={'/fairlyodd-logo-white.png'} width={60} height={60}/>
+      <img src={'/fairlyodd-logo-white.png'} width={60} height={60} alt='a doodle of white colored headphones'/>
       <Stack>
         <Typography>SAY HI. Or give me feedback</Typography>
         <Stack direction={'row'} gap={2}>
