@@ -13,7 +13,7 @@ const NAV_LINKS = [
 export const NavigationBar: React.FC = () => {
   const [open, setOpen] = useState(false);
   return (
-    <Stack position={'fixed'} zIndex={1000} width={'100%'} height={'100%'}>
+    <Stack position={'fixed'} zIndex={open ? 1000 : 0} width={'100%'} height={'100%'}>
       <IconButton
         aria-label="Open navigation menu"
         onClick={() => setOpen(true)}
