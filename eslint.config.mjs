@@ -12,6 +12,7 @@ export default [
       'public',
       'backend',
       'vite.config.ts',
+      'vitest.config.ts',
     ],
   },
   ...tanstackConfig,

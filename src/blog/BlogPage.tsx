@@ -109,7 +109,7 @@ export const BlogPage: React.FC = () => {
                 </Box>
                 <Stack direction="row" gap={2} marginTop={2}>
                   <IconButton
-                  aria-label='go to previous post'
+                    aria-label='go to previous post'
                     disabled={!canGoPrev}
                     onClick={() => setCurrentIndex(currentIndex - 1)}
                     sx={{
@@ -122,7 +122,7 @@ export const BlogPage: React.FC = () => {
                     <SkipPreviousIcon />
                   </IconButton>
                   <IconButton
-                  aria-label='go to next post'
+                    aria-label='go to next post'
                     disabled={!canGoNext}
                     onClick={() => setCurrentIndex(currentIndex + 1)}
                     sx={{

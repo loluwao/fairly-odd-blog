@@ -1,9 +1,10 @@
-import { afterEach } from 'vitest'
-import { cleanup } from '@testing-library/react'
+import { afterEach } from 'vitest';
+import { cleanup } from '@testing-library/react';
+import '@testing-library/jest-dom/vitest';
 
 afterEach(() => {
-  cleanup()
-})
+  cleanup();
+});
 
 // MUI requires window.matchMedia — jsdom does not implement it
 Object.defineProperty(window, 'matchMedia', {
@@ -18,11 +19,11 @@ Object.defineProperty(window, 'matchMedia', {
     removeEventListener: () => {},
     dispatchEvent: () => false,
   }),
-})
+});
 
 // MUI uses ResizeObserver for some layout components
 global.ResizeObserver = class ResizeObserver {
   observe() {}
   unobserve() {}
   disconnect() {}
-}
+};

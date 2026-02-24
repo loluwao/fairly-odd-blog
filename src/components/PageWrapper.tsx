@@ -11,6 +11,7 @@ export const PageWrapper: React.FC<{ children: ReactNode }> = ({
   return (
     <ThemeProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
+        {/* <CoolCursor /> */}
         {children}</QueryClientProvider>
     </ThemeProvider>
   );
