@@ -43,7 +43,7 @@ export const BlogPage: React.FC = () => {
               aria-label={viewMode === 'carousel' ? 'Switch to grid view' : 'Switch to carousel view'}
               onClick={() => setViewMode(viewMode === 'carousel' ? 'grid' : 'carousel')}
               sx={{
-                alignSelf: 'flex-end',
+                alignSelf: 'flex-start',
                 color: theme.palette.color.whiteAlpha50,
                 transition: 'color 0.2s ease',
                 '&:hover': { color: theme.palette.color.neonPink },
@@ -58,7 +58,7 @@ export const BlogPage: React.FC = () => {
                   width: '100%',
                   maxWidth: '1200px',
                   position: 'relative',
-                  height: 800,
+                  height: 850,
                   overflow: 'hidden',
                 }}>
                   <Stack
