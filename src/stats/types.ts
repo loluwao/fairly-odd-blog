@@ -16,6 +16,8 @@ export interface TopArtistsResponse {
   };
 }
 
+export type Source = 'lastfm' | 'spotify';
+
 export type TimeFrame = 'overall' | '7day' | '1month' | '3month' | '6month' | '12month';
 
 export interface TopTrack {

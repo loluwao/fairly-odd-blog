@@ -15,6 +15,7 @@ import { Route as BlogIndexRouteImport } from './routes/blog/index'
 import { Route as StatsLyricalComplexityIndexRouteImport } from './routes/stats/lyrical-complexity/index'
 import { Route as StatsEarwordsIndexRouteImport } from './routes/stats/earwords/index'
 import { Route as BlogReviewSlugIndexRouteImport } from './routes/blog/$reviewSlug/index'
+import { Route as StatsSpotifyCallbackIndexRouteImport } from './routes/stats/spotify/callback/index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -47,6 +48,12 @@ const BlogReviewSlugIndexRoute = BlogReviewSlugIndexRouteImport.update({
   path: '/blog/$reviewSlug/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const StatsSpotifyCallbackIndexRoute =
+  StatsSpotifyCallbackIndexRouteImport.update({
+    id: '/stats/spotify/callback/',
+    path: '/stats/spotify/callback/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -55,6 +62,7 @@ export interface FileRoutesByFullPath {
   '/blog/$reviewSlug': typeof BlogReviewSlugIndexRoute
   '/stats/earwords': typeof StatsEarwordsIndexRoute
   '/stats/lyrical-complexity': typeof StatsLyricalComplexityIndexRoute
+  '/stats/spotify/callback': typeof StatsSpotifyCallbackIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -63,6 +71,7 @@ export interface FileRoutesByTo {
   '/blog/$reviewSlug': typeof BlogReviewSlugIndexRoute
   '/stats/earwords': typeof StatsEarwordsIndexRoute
   '/stats/lyrical-complexity': typeof StatsLyricalComplexityIndexRoute
+  '/stats/spotify/callback': typeof StatsSpotifyCallbackIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -72,6 +81,7 @@ export interface FileRoutesById {
   '/blog/$reviewSlug/': typeof BlogReviewSlugIndexRoute
   '/stats/earwords/': typeof StatsEarwordsIndexRoute
   '/stats/lyrical-complexity/': typeof StatsLyricalComplexityIndexRoute
+  '/stats/spotify/callback/': typeof StatsSpotifyCallbackIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -82,6 +92,7 @@ export interface FileRouteTypes {
     | '/blog/$reviewSlug'
     | '/stats/earwords'
     | '/stats/lyrical-complexity'
+    | '/stats/spotify/callback'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -90,6 +101,7 @@ export interface FileRouteTypes {
     | '/blog/$reviewSlug'
     | '/stats/earwords'
     | '/stats/lyrical-complexity'
+    | '/stats/spotify/callback'
   id:
     | '__root__'
     | '/'
@@ -98,6 +110,7 @@ export interface FileRouteTypes {
     | '/blog/$reviewSlug/'
     | '/stats/earwords/'
     | '/stats/lyrical-complexity/'
+    | '/stats/spotify/callback/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -107,6 +120,7 @@ export interface RootRouteChildren {
   BlogReviewSlugIndexRoute: typeof BlogReviewSlugIndexRoute
   StatsEarwordsIndexRoute: typeof StatsEarwordsIndexRoute
   StatsLyricalComplexityIndexRoute: typeof StatsLyricalComplexityIndexRoute
+  StatsSpotifyCallbackIndexRoute: typeof StatsSpotifyCallbackIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -153,6 +167,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BlogReviewSlugIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/stats/spotify/callback/': {
+      id: '/stats/spotify/callback/'
+      path: '/stats/spotify/callback'
+      fullPath: '/stats/spotify/callback'
+      preLoaderRoute: typeof StatsSpotifyCallbackIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -163,6 +184,7 @@ const rootRouteChildren: RootRouteChildren = {
   BlogReviewSlugIndexRoute: BlogReviewSlugIndexRoute,
   StatsEarwordsIndexRoute: StatsEarwordsIndexRoute,
   StatsLyricalComplexityIndexRoute: StatsLyricalComplexityIndexRoute,
+  StatsSpotifyCallbackIndexRoute: StatsSpotifyCallbackIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
