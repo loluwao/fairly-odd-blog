@@ -11,7 +11,8 @@ export const StatsPage: React.FC = () => {
         <List>
           <ListItem sx={{ gap: 1 }}><MyLink color={theme.palette.color.neonPink} text={'Ear words/worms/whatever'} href='/stats/earwords'/>
             <br/>
-            <Typography variant='body1'>This takes your selected number of top songs from YOUR SELECTED TIME FRAME and gives you the top words from those songs. Right now only works with Last.fm but I'm working on the other streaming platforms</Typography>
+            <Typography variant='body1'>This takes your selected number of top songs from YOUR SELECTED TIME FRAME and gives you the top words from those songs.</Typography>
+
           </ListItem>
           <ListItem sx={{ gap: 1 }}><MyLink color={theme.palette.color.neonPink} text={'Lyrical complexity'} href='/stats/lyrical-complexity'/>
             <br/>

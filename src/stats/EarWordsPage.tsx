@@ -228,17 +228,27 @@ export const WordCountDisplay: React.FC<{ topWords: TopWordsResponse }> = ({ top
         {shuffledWords.map((word, idx) => (
           <Tooltip
             key={word.word}
-            title={word.count}
+            title={
+              <Box sx={{ p: 0.5 }}>
+                <Typography variant='subtitle2' >
+                  {word.count}x
+                </Typography>
+                {word.sources?.map((s) => (
+                  <Typography key={`${s.title}-${s.artist}`} variant='subtitle2' sx={{ lineHeight: 1.4 }}>
+                    {s.title} — {s.artist}
+                  </Typography>
+                ))}
+              </Box>
+            }
             arrow
             placement="top"
             slotProps={{
               tooltip: {
                 sx: {
                   bgcolor: theme.palette.color.blackAlpha85,
-                  fontSize: '1rem',
-                  fontWeight: 600,
                   px: 1.5,
-                  py: 0.5,
+                  py: 1,
+
                 },
               },
               arrow: { sx: { color: theme.palette.color.blackAlpha85 } },

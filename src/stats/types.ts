@@ -49,9 +49,15 @@ export interface LyricsResponse {
   url: string;
 }
 
+export interface WordSource {
+  title: string;
+  artist: string;
+}
+
 export interface WordCount {
   word: string;
   count: number;
+  sources?: WordSource[];
 }
 
 export interface TopWordsResponse {

@@ -107,14 +107,6 @@ def find_song(track: str, artist: str):
             song_info = result
             break
 
-    # second pass: any result with complete lyrics
-    if not song_info:
-        for hit in hits:
-            result = hit["result"]
-            if result.get("lyrics_state") == "complete":
-                song_info = result
-                break
-
     if not song_info:
         return None
 
@@ -266,6 +258,7 @@ def get_top_words(names: str, artists: str, playcounts: str, limit: int = 20):
 
     lemmatizer = WordNetLemmatizer()
     word_counts = Counter()
+    word_sources: dict[str, list[dict]] = {}
     total_tokens = 0
 
     for track, artist, playcount in zip(track_names, artist_names, play_counts):
@@ -277,6 +270,9 @@ def get_top_words(names: str, artists: str, playcounts: str, limit: int = 20):
                 lemmatized_words = set(lemmatizer.lemmatize(word) for word in unique_words)
                 for word in lemmatized_words:
                     word_counts[word] += playcount
+                    if word not in word_sources:
+                        word_sources[word] = []
+                    word_sources[word].append({"title": song["title"], "artist": song["artist"]})
                 total_tokens += len(lemmatized_words) * playcount
         except Exception as e:
             print(f"Error processing {track} by {artist}: {e}")
@@ -285,7 +281,7 @@ def get_top_words(names: str, artists: str, playcounts: str, limit: int = 20):
     top_words = word_counts.most_common(limit)
 
     return {
-        "words": [{"word": word, "count": count} for word, count in top_words],
+        "words": [{"word": word, "count": count, "sources": word_sources.get(word, [])} for word, count in top_words],
         "total_tokens": total_tokens,
     }
 
