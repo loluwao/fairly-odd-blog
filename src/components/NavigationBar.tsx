@@ -8,12 +8,13 @@ import theme from '../theme';
 const NAV_LINKS = [
   { href: '/blog', text: 'BLOG' },
   { href: '/stats', text: 'STATS' },
+  { href: '/dj', text: 'DJ' },
 ];
 
 export const NavigationBar: React.FC = () => {
   const [open, setOpen] = useState(false);
   return (
-    <Stack position={'fixed'} zIndex={open ? 1000 : 0} width={'100%'} height={'100%'}>
+    <Stack position={'fixed'} zIndex={open ? 1000 : 0} width={'100%'} height={'100%'} sx={{ pointerEvents: open ? 'auto' : 'none' }}>
       <IconButton
         aria-label="Open navigation menu"
         onClick={() => setOpen(true)}
@@ -26,6 +27,7 @@ export const NavigationBar: React.FC = () => {
           height: 44,
           bgcolor: '#0a0a0a',
           boxShadow: '0 2px 8px rgba(0, 0, 0, 0.5)',
+          pointerEvents: 'auto',
           visibility: open ? 'hidden' : 'visible',
           '&:hover': {
             bgcolor: '#141414',
