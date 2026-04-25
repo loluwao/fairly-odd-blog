@@ -5,7 +5,7 @@ import { TRACKS } from '../dj/tracks';
 
 export const LatestBanner: React.FC = () => {
   const { data: np, isLoading } = useNowPlaying();
-  let npMessage = isLoading ? '' : 'NOW LISTENING TO: ';
+  let npMessage = isLoading ? '' : np?.nowPlaying ? 'NOW LISTENING TO: ' : 'WAS LISTENING TO: ';
   if (!np) {
     npMessage += 'NOTHING';
   } else {
