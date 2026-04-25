@@ -251,10 +251,10 @@ export const PostPage: React.FC = () => {
 
   return (
     <PageLayout
-      header={ post?.title ?? ''}
+      header={post?.title ?? ''}
       subheader={post ? formatDate(post.date) : undefined}
       content={
-        <Stack spacing={2} sx={{ maxWidth: '800px', margin: '0 auto', padding: 2 }}>
+        <Stack sx={{ py: 2 }}>
           {parsedContent}
         </Stack>
       }

@@ -1,8 +1,44 @@
 import { useQuery } from '@tanstack/react-query';
-import type { ComplexityResult, LyricsResponse, TimeFrame, TopArtist, TopArtistsResponse, TopTrack, TopTracksResponse, TopWordsResponse } from './types';
+import type { ComplexityResult, LyricsResponse, NowPlayingTrack, TimeFrame, TopArtist, TopArtistsResponse, TopTrack, TopTracksResponse, TopWordsResponse } from './types';
 
 const LASTFM_API_KEY = import.meta.env.VITE_LASTFM_API_KEY;
 const LASTFM_BASE_URL = 'https://ws.audioscrobbler.com/2.0/';
+
+export const useNowPlaying = () => {
+  return useQuery<NowPlayingTrack | null>({
+    queryKey: ['now-playing', 'temitturner'],
+    queryFn: async () => {
+      const params = new URLSearchParams({
+        method: 'user.getrecenttracks',
+        user: 'temitturner',
+        api_key: LASTFM_API_KEY,
+        format: 'json',
+        limit: '1',
+      });
+
+      const response = await fetch(`${LASTFM_BASE_URL}?${params}`);
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch now playing');
+      }
+
+      const data = await response.json();
+      const track = data.recenttracks?.track?.[0];
+
+      if (!track) return null;
+
+      return {
+        name: track.name,
+        artist: track.artist['#text'],
+        album: track.album['#text'],
+        url: track.url,
+        image: track.image?.find((img: { size: string }) => img.size === 'large')?.['#text'] ?? '',
+        nowPlaying: track['@attr']?.nowplaying === 'true',
+      };
+    },
+    refetchInterval: 30_000,
+  });
+};
 
 export const useTopArtists = (username: string, period: TimeFrame) => {
   return useQuery<TopArtist[]>({

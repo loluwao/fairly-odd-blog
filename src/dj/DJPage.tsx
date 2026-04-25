@@ -12,7 +12,7 @@ export const DJPage: React.FC = () => {
       header="DJ"
       subheader='Listen to the practice mixes I chose to put here!'
       content={
-        <Stack alignItems="center" width="100%" mt={2}>
+        <Stack alignItems="center" mt={2}>
           <Box
             sx={{
               display: 'grid',
@@ -20,7 +20,6 @@ export const DJPage: React.FC = () => {
               gap: 2,
               width: '100%',
               maxWidth: 900,
-              px: 2,
             }}
           >
             {TRACKS.map(track => (
@@ -45,7 +44,7 @@ export const DJPage: React.FC = () => {
                 >
                   {track.title}
                 </Typography>
-                <Typography variant="body2" color={theme.palette.color.whiteAlpha50} sx={{ mt: 0.5, fontSize: 11 }}>
+                <Typography variant="body2" color={theme.palette.color.whiteAlpha50} >
                   {track.description}
                 </Typography>
               </Box>

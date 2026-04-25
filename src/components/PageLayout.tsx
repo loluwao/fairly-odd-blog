@@ -1,4 +1,4 @@
-import { Box, Stack, Typography } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 import theme from '../theme';
 import { Footer } from './Footer';
 import type { ReactNode } from 'react';
@@ -10,12 +10,11 @@ export const PageLayout: React.FC<{
 
 }> = ({ header, subheader, content }) => {
   return (
-    <Stack padding={4} alignItems={'center'} gap={5} sx={{ minHeight: '100dvh' }}>
-      <Stack sx={{ flex: 1, width: '100%', alignItems: 'center' }}>
-        <Stack maxWidth={800} width='100%' alignItems={'center'} px={2}>
-          {header && <Box width={'90%'}><Typography variant="h1" textAlign={'center'} color={theme.palette.color.neonPink} >{header}</Typography></Box>}
-          {subheader && <Typography variant='body2' color={theme.palette.color.whiteAlpha70}>{subheader}</Typography>}
-          {/* <img src={'/fairlyodd-logo-white.png'} width={20}/> */}
+    <Stack padding={1} alignItems={'center'} gap={5} sx={{ minHeight: '100dvh' }}>
+      <Stack sx={{ width: '80%', alignItems: 'center' }}>
+        <Stack width={'100%'} gap={1}>
+          {header && <Typography variant="h1" color={theme.palette.color.white} >{header}</Typography>}
+          {subheader && <Typography variant='subtitle1' color={theme.palette.color.whiteAlpha70}>{subheader}</Typography>}
         </Stack>
         {content}
       </Stack>

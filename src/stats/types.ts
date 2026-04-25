@@ -76,6 +76,15 @@ export interface ComplexityResult {
   artist: string;
 }
 
+export interface NowPlayingTrack {
+  name: string;
+  artist: string;
+  album: string;
+  url: string;
+  image: string;
+  nowPlaying: boolean;
+}
+
 export const timeFrameOptions: { value: TimeFrame; label: string }[] = [
   { value: '7day', label: 'Last 7 Days' },
   { value: '1month', label: 'Last Month' },

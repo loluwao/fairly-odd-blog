@@ -4,6 +4,7 @@ import { Outlet, createRootRoute } from '@tanstack/react-router';
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools';
 import { NavigationBar } from '../components/NavigationBar';
 import theme from '../theme';
+import { LatestBanner } from '../components/LatestBanner';
 
 export const Route = createRootRoute({
   component: () => (
@@ -13,15 +14,11 @@ export const Route = createRootRoute({
         minHeight: '100dvh',
         width: '100%',
         display: 'flex',
+        flexDirection: 'column',
       }}
     >
-      <Box
-        sx={{
-          flexShrink: 0,
-        }}
-      >
-        <NavigationBar />
-      </Box>
+      <LatestBanner />
+      <NavigationBar />
       <Box
         component="main"
         sx={{
