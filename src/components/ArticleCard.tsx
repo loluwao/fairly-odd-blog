@@ -18,7 +18,7 @@ export const ArticleCard: React.FC<{
         borderWidth: 1,
         borderColor: 'black',
         borderStyle: 'solid',
-        transition: 'all ease-in-out 0.2s;',
+        transition: 'ease-in-out 0.2s',
         '&:hover': {
           borderColor: theme.palette.color.neonPink,
           cursor: 'pointer',
