@@ -39,6 +39,7 @@ export const BlogPage: React.FC = () => {
                   previewText={article.excerpt}
                   imgSrc={article.featured_image}
                   onClick={() => navigate({ to: '/blog/$reviewSlug', params: { reviewSlug: article.slug } })}
+                  date={article.date}
                   sx={{ width: '100%' }}
                 />
               ))}
